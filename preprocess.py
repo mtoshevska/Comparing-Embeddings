@@ -43,3 +43,17 @@ def extract_lemmas(sentences, file_name):
         with open(f'data/{file_name}_lemmas.pkl', 'wb') as doc:
             pickle.dump(lemmas, doc)
     return lemmas
+
+
+def extract_vocabulary(sentences, file_name):
+    if os.path.exists(f'data/{file_name}_vocab.pkl'):
+        with open(f'data/{file_name}_vocab.pkl', 'rb') as doc:
+            vocab = pickle.load(doc)
+    else:
+        vocab = list()
+        for _, sentence in zip(tqdm(list(range(len(sentences)))), sentences):
+            vocab.extend(sentence)
+        vocab = list(set(vocab))
+        with open(f'data/{file_name}_vocab.pkl', 'wb') as doc:
+            pickle.dump(vocab, doc)
+    return vocab
