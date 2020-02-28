@@ -6,8 +6,8 @@ from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary
 
 
 def load_glove_embeddings(embeddings_type, embeddings_size, words, dataset_name):
-    if os.path.exists(f'data/{dataset_name}_{embeddings_type}_{embeddings_size}.pkl'):
-        with open(f'data/{dataset_name}_{embeddings_type}_{embeddings_size}.pkl', 'rb') as doc:
+    if os.path.exists(f'data/{dataset_name}_glove_{embeddings_type}_{embeddings_size}.pkl'):
+        with open(f'data/{dataset_name}_glove_{embeddings_type}_{embeddings_size}.pkl', 'rb') as doc:
             embeddings = pickle.load(doc)
     else:
         embeddings = dict()
@@ -22,7 +22,7 @@ def load_glove_embeddings(embeddings_type, embeddings_size, words, dataset_name)
                 if parts[0] in words:
                     embeddings[parts[0]] = vals
                 line = doc.readline()
-        with open(f'data/{dataset_name}_{embeddings_type}_{embeddings_size}.pkl', 'wb') as doc:
+        with open(f'data/{dataset_name}_glove_{embeddings_type}_{embeddings_size}.pkl', 'wb') as doc:
             pickle.dump(embeddings, doc)
     return embeddings
 

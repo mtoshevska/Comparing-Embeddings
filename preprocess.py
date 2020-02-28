@@ -76,7 +76,7 @@ def extract_wordsim_vocabulary():
         wordsim_pairs = read_wordsim()
         wordsim_vocab = list()
         wordsim_vocab.extend(wordsim_pairs['word1'].get_values())
-        wordsim_vocab.extend(wordsim_pairs['word1'].get_values())
+        wordsim_vocab.extend(wordsim_pairs['word2'].get_values())
         wordsim_vocab = list(set([w.lower() for w in wordsim_vocab]))
         with open('data/WordSim353_vocab.pkl', 'wb') as doc:
             pickle.dump(wordsim_vocab, doc)
@@ -91,7 +91,7 @@ def extract_simlex_vocabulary():
         simlex_pairs = read_simlex()
         simlex_vocab = list()
         simlex_vocab.extend(simlex_pairs['word1'].get_values())
-        simlex_vocab.extend(simlex_pairs['word1'].get_values())
+        simlex_vocab.extend(simlex_pairs['word2'].get_values())
         simlex_vocab = list(set([w.lower() for w in simlex_vocab]))
         with open('data/SimLex999_vocab.pkl', 'wb') as doc:
             pickle.dump(simlex_vocab, doc)
