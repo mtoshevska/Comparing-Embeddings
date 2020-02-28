@@ -1,6 +1,7 @@
-import numpy as np
 import os
-import _pickle as pickle
+import pickle
+import numpy as np
+import gensim.downloader as api
 from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary
 
 
@@ -26,6 +27,21 @@ def load_glove_embeddings(embeddings_type, embeddings_size, words, dataset_name)
     return embeddings
 
 
+def load_word2vec_embeddings(model_name, embeddings_size, words, dataset_name):
+    if os.path.exists(f'data/{dataset_name}_word2vec_{embeddings_size}.pkl'):
+        with open(f'data/{dataset_name}_word2vec_{embeddings_size}.pkl', 'rb') as doc:
+            embeddings = pickle.load(doc)
+    else:
+        embeddings = dict()
+        model = api.load(model_name)
+        for word in words:
+            if word in model.vocab:
+                embeddings[word] = model[word]
+        with open(f'data/{dataset_name}_word2vec_{embeddings_size}.pkl', 'wb') as doc:
+            pickle.dump(embeddings, doc, pickle.HIGHEST_PROTOCOL)
+    return embeddings
+
+
 if __name__ == '__main__':
     wordsim_vocab = extract_wordsim_vocabulary()
     simlex_vocab = extract_simlex_vocabulary()
@@ -34,8 +50,10 @@ if __name__ == '__main__':
     wordsim_wikipedia_300 = load_glove_embeddings('wikipedia', 300, wordsim_vocab, 'WordSim353')
     wordsim_twitter_50 = load_glove_embeddings('twitter', 50, wordsim_vocab, 'WordSim353')
     wordsim_twitter_200 = load_glove_embeddings('twitter', 200, wordsim_vocab, 'WordSim353')
+    wordsim_word2vec = load_word2vec_embeddings('word2vec-google-news-300', 300, wordsim_vocab, 'WordSim353')
 
     simlex_wikipedia_50 = load_glove_embeddings('wikipedia', 50, simlex_vocab, 'SimLex999')
     simlex_wikipedia_300 = load_glove_embeddings('wikipedia', 300, simlex_vocab, 'SimLex999')
     simlex_twitter_50 = load_glove_embeddings('twitter', 50, simlex_vocab, 'SimLex999')
     simlex_twitter_200 = load_glove_embeddings('twitter', 200, simlex_vocab, 'SimLex999')
+    simlex_word2vec = load_word2vec_embeddings('word2vec-google-news-300', 300, simlex_vocab, 'SimLex999')
