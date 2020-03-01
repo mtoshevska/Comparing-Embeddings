@@ -64,7 +64,7 @@ def read_wordsim():
 
 
 def read_simlex():
-    return pd.read_table('data/SimLex999.txt', usecols=['word1', 'word2', 'SimLex999']).rename(
+    return pd.read_table('data/SimLex999.txt', usecols=['word1', 'word2', 'POS', 'SimLex999']).rename(
         columns={'SimLex999': 'gt_sim'})
 
 
