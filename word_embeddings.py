@@ -2,7 +2,7 @@ import os
 import pickle
 import numpy as np
 import gensim.downloader as api
-from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary
+from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary, extract_simverb_vocabulary
 
 
 def load_glove_embeddings(embeddings_type, embeddings_size, words, dataset_name):
@@ -45,6 +45,7 @@ def load_word2vec_embeddings(model_name, embeddings_size, words, dataset_name):
 if __name__ == '__main__':
     wordsim_vocab = extract_wordsim_vocabulary()
     simlex_vocab = extract_simlex_vocabulary()
+    simverb_vocab = extract_simverb_vocabulary()
 
     wordsim_wikipedia_50 = load_glove_embeddings('wikipedia', 50, wordsim_vocab, 'WordSim353')
     wordsim_wikipedia_300 = load_glove_embeddings('wikipedia', 300, wordsim_vocab, 'WordSim353')
@@ -57,3 +58,8 @@ if __name__ == '__main__':
     simlex_twitter_50 = load_glove_embeddings('twitter', 50, simlex_vocab, 'SimLex999')
     simlex_twitter_200 = load_glove_embeddings('twitter', 200, simlex_vocab, 'SimLex999')
     simlex_word2vec = load_word2vec_embeddings('word2vec-google-news-300', 300, simlex_vocab, 'SimLex999')
+
+    simverb_wikipedia_50 = load_glove_embeddings('wikipedia', 50, simverb_vocab, 'SimVerb3500')
+    simverb_wikipedia_300 = load_glove_embeddings('wikipedia', 300, simverb_vocab, 'SimVerb3500')
+    simverb_twitter_50 = load_glove_embeddings('twitter', 50, simverb_vocab, 'SimVerb3500')
+    simverb_twitter_200 = load_glove_embeddings('twitter', 200, simverb_vocab, 'SimVerb3500')
