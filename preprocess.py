@@ -68,6 +68,11 @@ def read_simlex():
         columns={'SimLex999': 'gt_sim'})
 
 
+def read_simverb():
+    return pd.read_table('data/SimVerb3500.txt', header=None, usecols=[0, 1, 3]).rename(
+        columns={0: 'word1', 1: 'word2', 3: 'gt_sim'})
+
+
 def extract_wordsim_vocabulary():
     if os.path.exists('data/WordSim353_vocab.pkl'):
         with open('data/WordSim353_vocab.pkl', 'rb') as doc:
@@ -96,3 +101,18 @@ def extract_simlex_vocabulary():
         with open('data/SimLex999_vocab.pkl', 'wb') as doc:
             pickle.dump(simlex_vocab, doc)
     return simlex_vocab
+
+
+def extract_simverb_vocabulary():
+    if os.path.exists('data/SimVerb3500_vocab.pkl'):
+        with open('data/SimVerb3500_vocab.pkl', 'rb') as doc:
+            simverb_vocab = pickle.load(doc)
+    else:
+        simverb_pairs = read_simverb()
+        simverb_vocab = list()
+        simverb_vocab.extend(simverb_pairs['word1'].get_values())
+        simverb_vocab.extend(simverb_pairs['word2'].get_values())
+        simverb_vocab = list(set([w.lower() for w in simverb_vocab]))
+        with open('data/SimVerb3500_vocab.pkl', 'wb') as doc:
+            pickle.dump(simverb_vocab, doc)
+    return simverb_vocab
