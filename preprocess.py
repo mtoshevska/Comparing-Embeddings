@@ -116,3 +116,18 @@ def extract_simverb_vocabulary():
         with open('data/SimVerb3500_vocab.pkl', 'wb') as doc:
             pickle.dump(simverb_vocab, doc)
     return simverb_vocab
+
+
+def read_dataset(dataset_name):
+    if dataset_name == 'WordSim353':
+        return read_wordsim()
+    elif dataset_name == 'SimLex999':
+        return read_simlex()
+    else:
+        return read_simverb()
+
+
+def read_embeddings(dataset_name, emb_name, emb_type, emb_size):
+    with open(f'data/{dataset_name}_{emb_name}_{emb_type}_{emb_size}.pkl', 'rb') as doc:
+        embeddings = pickle.load(doc)
+    return embeddings

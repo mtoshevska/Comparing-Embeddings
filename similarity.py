@@ -1,21 +1,5 @@
-import _pickle as pickle
-from preprocess import read_wordsim, read_simlex, read_simverb
+from preprocess import read_dataset, read_embeddings
 from sklearn.metrics.pairwise import cosine_similarity
-
-
-def read_dataset(dataset_name):
-    if dataset_name == 'WordSim353':
-        return read_wordsim()
-    elif dataset_name == 'SimLex999':
-        return read_simlex()
-    else:
-        return read_simverb()
-
-
-def read_embeddings(dataset_name, emb_name, emb_type, emb_size):
-    with open(f'data/{dataset_name}_{emb_name}_{emb_type}_{emb_size}.pkl', 'rb') as doc:
-        embeddings = pickle.load(doc)
-    return embeddings
 
 
 def calculate_cosine_similarity(dataset_name, emb_name, emb_type, emb_size):
