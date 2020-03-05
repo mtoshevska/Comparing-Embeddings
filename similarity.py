@@ -1,13 +1,15 @@
 import _pickle as pickle
-from preprocess import read_wordsim, read_simlex
+from preprocess import read_wordsim, read_simlex, read_simverb
 from sklearn.metrics.pairwise import cosine_similarity
 
 
 def read_dataset(dataset_name):
     if dataset_name == 'WordSim353':
         return read_wordsim()
-    else:
+    elif dataset_name == 'SimLex999':
         return read_simlex()
+    else:
+        return read_simverb()
 
 
 def read_embeddings(dataset_name, emb_name, emb_type, emb_size):
@@ -39,7 +41,8 @@ if __name__ == '__main__':
     calculate_cosine_similarity('WordSim353', 'glove', 'twitter', 200)
     calculate_cosine_similarity('WordSim353', 'fasttext', 'wikipedia', 300)
     calculate_cosine_similarity('WordSim353', 'fasttext', 'crawl', 300)
-    calculate_cosine_similarity('WordSim353', 'word2vec', 'google', 300)
+    calculate_cosine_similarity('WordSim353', 'word2vec', 'freebase', 1000)
+    calculate_cosine_similarity('WordSim353', 'word2vec', 'google_news', 300)
 
     calculate_cosine_similarity('SimLex999', 'glove', 'wikipedia', 50)
     calculate_cosine_similarity('SimLex999', 'glove', 'wikipedia', 300)
@@ -47,4 +50,14 @@ if __name__ == '__main__':
     calculate_cosine_similarity('SimLex999', 'glove', 'twitter', 200)
     calculate_cosine_similarity('SimLex999', 'fasttext', 'wikipedia', 300)
     calculate_cosine_similarity('SimLex999', 'fasttext', 'crawl', 300)
-    calculate_cosine_similarity('SimLex999', 'word2vec', 'google', 300)
+    calculate_cosine_similarity('SimLex999', 'word2vec', 'freebase', 1000)
+    calculate_cosine_similarity('SimLex999', 'word2vec', 'google_news', 300)
+
+    calculate_cosine_similarity('SimVerb3500', 'glove', 'wikipedia', 50)
+    calculate_cosine_similarity('SimVerb3500', 'glove', 'wikipedia', 300)
+    calculate_cosine_similarity('SimVerb3500', 'glove', 'twitter', 50)
+    calculate_cosine_similarity('SimVerb3500', 'glove', 'twitter', 200)
+    calculate_cosine_similarity('SimVerb3500', 'fasttext', 'wikipedia', 300)
+    calculate_cosine_similarity('SimVerb3500', 'fasttext', 'crawl', 300)
+    calculate_cosine_similarity('SimVerb3500', 'word2vec', 'freebase', 1000)
+    calculate_cosine_similarity('SimVerb3500', 'word2vec', 'google_news', 300)
