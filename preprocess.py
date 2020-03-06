@@ -128,6 +128,6 @@ def read_dataset(dataset_name):
 
 
 def read_embeddings(dataset_name, emb_name, emb_type, emb_size):
-    with open(f'data/{dataset_name}_{emb_name}_{emb_type}_{emb_size}.pkl', 'rb') as doc:
+    with open(f'data/embeddings/{dataset_name}_{emb_name}_{emb_type}_{emb_size}.pkl', 'rb') as doc:
         embeddings = pickle.load(doc)
     return embeddings
