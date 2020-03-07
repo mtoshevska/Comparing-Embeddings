@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+from PIL import Image
+import os
 import seaborn as sns
 import matplotlib.pyplot as plt
 from preprocess import read_dataset
@@ -38,7 +41,23 @@ def plot_similarity(dataset_name, embeddings):
     plt.show()
 
 
+def combine_images(dataset_name, kind):
+    paths = [path for path in os.listdir(f'results/img/{kind}') if path.startswith(dataset_name)]
+    images = [Image.open(f'results/img/{kind}/{image}') for image in paths]
+    result = np.vstack((np.hstack([np.asarray(images[i]) for i in range(int(len(images) / 2))]),
+                        np.hstack([np.asarray(images[i]) for i in range(int(len(images) / 2), len(images))])))
+    result_image = Image.fromarray(result)
+    result_image.save(f'results/img/{dataset_name}_{kind}.png')
+
+
 if __name__ == '__main__':
+    combine_images('WordSim353', 'hex')
+    combine_images('SimLex999', 'hex')
+    combine_images('SimVerb3500', 'hex')
+    combine_images('WordSim353', 'reg')
+    combine_images('SimLex999', 'reg')
+    combine_images('SimVerb3500', 'reg')
+
     plot_correlation('WordSim353', 'glove', 'wikipedia', 50, 'hex', True)
     plot_correlation('WordSim353', 'glove', 'wikipedia', 300, 'hex', True)
     plot_correlation('WordSim353', 'glove', 'twitter', 50, 'hex', True)
