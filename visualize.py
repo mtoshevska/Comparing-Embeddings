@@ -41,7 +41,7 @@ def plot_similarity(dataset_name, embeddings):
     plt.show()
 
 
-def combine_images(dataset_name, kind):
+def combine_images_correlation(dataset_name, kind):
     paths = [path for path in os.listdir(f'results/img/{kind}') if path.startswith(dataset_name)]
     images = [Image.open(f'results/img/{kind}/{image}') for image in paths]
     result = np.vstack((np.hstack([np.asarray(images[i]) for i in range(int(len(images) / 2))]),
@@ -50,13 +50,53 @@ def combine_images(dataset_name, kind):
     result_image.save(f'results/img/{dataset_name}_{kind}.png')
 
 
+def plot_avg_similarities(dataset_name, save_file=False):
+    paths = [path for path in os.listdir('results/similarity') if path.startswith(dataset_name)]
+    values = [np.mean(read_dataset(dataset_name)['gt_sim'].get_values())]
+    embeddings = ['GT']
+    for path in paths:
+        values.append(np.nanmean(pd.read_csv(f'results/similarity/{path}')['cosine_sim'].get_values()))
+        emb_name = path.split('_')
+        embeddings.append(f'{emb_name[1][0].upper()}-{emb_name[2][0].upper()}-{emb_name[3]}')
+    data = pd.DataFrame()
+    data['embeddings'] = embeddings
+    data['similarities'] = values
+    sns.set(style='darkgrid', context='poster', font='Verdana')
+    f, ax = plt.subplots()
+    sns.barplot(x='embeddings', y='similarities', ax=ax, data=data)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=75)
+    ax.axhline(0, color='k', clip_on=False)
+    plt.ylim(0, 10)
+    for bar, value in zip(ax.patches, data['similarities'].get_values()):
+        text_x = bar.get_x() + bar.get_width() / 2.0
+        text_y = bar.get_height() + 0.025
+        text = f'{round(value, 5)}'
+        ax.text(text_x, text_y, text, fontsize=20, ha='center', va='bottom', rotation=90, color='k')
+    sns.despine(bottom=True)
+    plt.title(dataset_name)
+    if save_file:
+        figure = plt.gcf()
+        figure.set_size_inches(10, 8)
+        plt.subplots_adjust(left=0.1, right=0.95, top=0.95, bottom=0.3)
+        plt.savefig(f'results/img/{dataset_name}_avg_sim.png')
+    else:
+        plt.show()
+
+
+def combine_images_similarity():
+    paths = [path for path in os.listdir(f'results/img') if 'avg_sim' in path]
+    images = [Image.open(f'results/img/{image}') for image in paths]
+    result = np.vstack([np.asarray(i) for i in images])
+    result_image = Image.fromarray(result)
+    result_image.save('results/img/avg_sim.png')
+
+
 if __name__ == '__main__':
-    combine_images('WordSim353', 'hex')
-    combine_images('SimLex999', 'hex')
-    combine_images('SimVerb3500', 'hex')
-    combine_images('WordSim353', 'reg')
-    combine_images('SimLex999', 'reg')
-    combine_images('SimVerb3500', 'reg')
+    plot_avg_similarities('WordSim353', True)
+    plot_avg_similarities('SimLex999', True)
+    plot_avg_similarities('SimVerb3500', True)
+
+    combine_images_similarity()
 
     plot_correlation('WordSim353', 'glove', 'wikipedia', 50, 'hex', True)
     plot_correlation('WordSim353', 'glove', 'wikipedia', 300, 'hex', True)
@@ -123,3 +163,10 @@ if __name__ == '__main__':
     plot_correlation('SimVerb3500', 'lexvec', 'crawl', 300, 'reg', True)
     plot_correlation('SimVerb3500', 'word2vec', 'googlenews', 300, 'reg', True)
     plot_correlation('SimVerb3500', 'numberbatch', 'conceptnet', 300, 'reg', True)
+
+    combine_images_correlation('WordSim353', 'hex')
+    combine_images_correlation('SimLex999', 'hex')
+    combine_images_correlation('SimVerb3500', 'hex')
+    combine_images_correlation('WordSim353', 'reg')
+    combine_images_correlation('SimLex999', 'reg')
+    combine_images_correlation('SimVerb3500', 'reg')
