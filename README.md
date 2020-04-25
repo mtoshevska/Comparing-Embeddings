@@ -1,4 +1,4 @@
-# Comparing Embeddings
+# Comparative Analysis of Word Embeddings for Capturing Word Similarities
 
 Source code for the paper: [Comparative Analysis of Word Embeddings for Capturing Word Similarities](https://aircconline.com/csit/papers/vol10/csit100402.pdf).
 
