@@ -73,6 +73,18 @@ def read_simverb():
         columns={0: 'word1', 1: 'word2', 3: 'gt_sim'})
 
 
+def read_rg():
+    return pd.read_table('data/RG65.csv', sep=';', header=None).rename(columns={0: 'word1', 1: 'word2', 2: 'gt_sim'})
+
+
+def read_rw():
+    return pd.read_table('data/RW2034.csv', sep=';', header=None).rename(columns={0: 'word1', 1: 'word2', 2: 'gt_sim'})
+
+
+def read_verb():
+    return pd.read_table('data/Verb143.csv', sep=';', header=None).rename(columns={0: 'word1', 1: 'word2', 2: 'gt_sim'})
+
+
 def extract_wordsim_vocabulary():
     if os.path.exists('data/WordSim353_vocab.pkl'):
         with open('data/WordSim353_vocab.pkl', 'rb') as doc:
@@ -116,6 +128,51 @@ def extract_simverb_vocabulary():
         with open('data/SimVerb3500_vocab.pkl', 'wb') as doc:
             pickle.dump(simverb_vocab, doc)
     return simverb_vocab
+
+
+def extract_rg_vocabulary():
+    if os.path.exists('data/RG65_vocab.pkl'):
+        with open('data/RG65_vocab.pkl', 'rb') as doc:
+            rg_vocab = pickle.load(doc)
+    else:
+        rg_pairs = read_rg()
+        rg_vocab = list()
+        rg_vocab.extend(rg_pairs['word1'].get_values())
+        rg_vocab.extend(rg_pairs['word2'].get_values())
+        rg_vocab = list(set([w.lower() for w in rg_vocab]))
+        with open('data/RG65_vocab.pkl', 'wb') as doc:
+            pickle.dump(rg_vocab, doc)
+    return rg_vocab
+
+
+def extract_rw_vocabulary():
+    if os.path.exists('data/RW2034_vocab.pkl'):
+        with open('data/RW2034_vocab.pkl', 'rb') as doc:
+            rw_vocab = pickle.load(doc)
+    else:
+        rw_pairs = read_rw()
+        rw_vocab = list()
+        rw_vocab.extend(rw_pairs['word1'].get_values())
+        rw_vocab.extend(rw_pairs['word2'].get_values())
+        rw_vocab = list(set([w.lower() for w in rw_vocab]))
+        with open('data/RW2034_vocab.pkl', 'wb') as doc:
+            pickle.dump(rw_vocab, doc)
+    return rw_vocab
+
+
+def extract_verb_vocabulary():
+    if os.path.exists('data/Verb143_vocab.pkl'):
+        with open('data/Verb143_vocab.pkl', 'rb') as doc:
+            verb_vocab = pickle.load(doc)
+    else:
+        verb_pairs = read_verb()
+        verb_vocab = list()
+        verb_vocab.extend(verb_pairs['word1'].get_values())
+        verb_vocab.extend(verb_pairs['word2'].get_values())
+        verb_vocab = list(set([w.lower() for w in verb_vocab]))
+        with open('data/Verb143_vocab.pkl', 'wb') as doc:
+            pickle.dump(verb_vocab, doc)
+    return verb_vocab
 
 
 def read_dataset(dataset_name):

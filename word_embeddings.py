@@ -2,7 +2,8 @@ import os
 import pickle
 import numpy as np
 import gensim.models.keyedvectors as word2vec
-from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary, extract_simverb_vocabulary
+from preprocess import extract_wordsim_vocabulary, extract_simlex_vocabulary, extract_simverb_vocabulary, \
+    extract_rg_vocabulary, extract_rw_vocabulary, extract_verb_vocabulary
 
 
 def load_glove_embeddings(embeddings_type, embeddings_size, words, dataset_name):
@@ -69,6 +70,9 @@ if __name__ == '__main__':
     wordsim_vocab = extract_wordsim_vocabulary()
     simlex_vocab = extract_simlex_vocabulary()
     simverb_vocab = extract_simverb_vocabulary()
+    rg_vocab = extract_rg_vocabulary()
+    rw_vocab = extract_rw_vocabulary()
+    verb_vocab = extract_verb_vocabulary()
 
     wordsim_wikipedia_50 = load_glove_embeddings('wikipedia', 50, wordsim_vocab, 'WordSim353')
     wordsim_wikipedia_300 = load_glove_embeddings('wikipedia', 300, wordsim_vocab, 'WordSim353')
@@ -100,3 +104,18 @@ if __name__ == '__main__':
                                                          1000, simverb_vocab, 'SimVerb3500')
     simverb_conceptnet = load_word2vec_embeddings('numberbatch-en-19.08.txt',
                                                   300, simverb_vocab, 'SimVerb3500')
+
+    rg_wikipedia_50 = load_glove_embeddings('wikipedia', 50, rg_vocab, 'RG65')
+    rg_wikipedia_300 = load_glove_embeddings('wikipedia', 300, rg_vocab, 'RG65')
+    rg_twitter_50 = load_glove_embeddings('twitter', 50, rg_vocab, 'RG65')
+    rg_twitter_200 = load_glove_embeddings('twitter', 200, rg_vocab, 'RG65')
+
+    rw_wikipedia_50 = load_glove_embeddings('wikipedia', 50, rw_vocab, 'RW2034')
+    rw_wikipedia_300 = load_glove_embeddings('wikipedia', 300, rw_vocab, 'RW2034')
+    rw_twitter_50 = load_glove_embeddings('twitter', 50, rw_vocab, 'RW2034')
+    rw_twitter_200 = load_glove_embeddings('twitter', 200, rw_vocab, 'RW2034')
+
+    verb_wikipedia_50 = load_glove_embeddings('wikipedia', 50, rw_vocab, 'Verb143')
+    verb_wikipedia_300 = load_glove_embeddings('wikipedia', 300, rw_vocab, 'Verb143')
+    verb_twitter_50 = load_glove_embeddings('twitter', 50, rw_vocab, 'Verb143')
+    verb_twitter_200 = load_glove_embeddings('twitter', 200, rw_vocab, 'Verb143')
