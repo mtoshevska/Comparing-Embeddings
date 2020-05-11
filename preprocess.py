@@ -74,7 +74,8 @@ def read_simverb():
 
 
 def read_rg():
-    return pd.read_table('data/RG65.csv', sep=';', header=None).rename(columns={0: 'word1', 1: 'word2', 2: 'gt_sim'})
+    return pd.read_table('data/RG65.csv', sep=';', header=None).rename(
+        columns={0: 'word1', 1: 'word2', 2: 'gt_sim'}).apply(lambda x: x * 2.5 if x.name == 'gt_sim' else x)
 
 
 def read_rw():
@@ -82,7 +83,8 @@ def read_rw():
 
 
 def read_verb():
-    return pd.read_table('data/Verb143.csv', sep=';', header=None).rename(columns={0: 'word1', 1: 'word2', 2: 'gt_sim'})
+    return pd.read_table('data/Verb143.csv', sep=';', header=None).rename(
+        columns={0: 'word1', 1: 'word2', 2: 'gt_sim'}).apply(lambda x: x * 2.5 if x.name == 'gt_sim' else x)
 
 
 def extract_wordsim_vocabulary():
@@ -180,8 +182,16 @@ def read_dataset(dataset_name):
         return read_wordsim()
     elif dataset_name == 'SimLex999':
         return read_simlex()
-    else:
+    elif dataset_name == 'SimVerb3500':
         return read_simverb()
+    elif dataset_name == 'RG65':
+        return read_rg()
+    elif dataset_name == 'RW2034':
+        return read_rw()
+    elif dataset_name == 'Verb143':
+        return read_verb()
+    else:
+        raise Exception(f'No such dataset exists: {dataset_name}')
 
 
 def read_embeddings(dataset_name, emb_name, emb_type, emb_size):
