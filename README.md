@@ -2,6 +2,8 @@
 
 Source code for the paper: [Comparative Analysis of Word Embeddings for Capturing Word Similarities](https://aircconline.com/csit/papers/vol10/csit100402.pdf).
 
+Extended version: [The Ability of Word Embeddings to Capture Word Similarities](https://aircconline.com/ijnlc/V9N3/9320ijnlc02.pdf).
+
 
 ## Abstract
 
